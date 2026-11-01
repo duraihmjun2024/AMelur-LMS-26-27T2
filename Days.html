@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Panchayat Union Primary School, Anjalam Melur</title>
+<style>
+* { box-sizing: border-box; }
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    background: #0f172a;
+    color: #f8fafc;
+    margin: 0;
+    padding: 0;
+}
+
+/* TOP TOOLBAR / TITLE BAR */
+.top-toolbar {
+    background: #1e293b;
+    border-bottom: 2px solid #38bdf8;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 16px;
+    gap: 15px;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+.marquee-container {
+    flex: 1;
+    overflow: hidden;
+    white-space: nowrap;
+    background: #0f172a;
+    padding: 6px 12px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+}
+.marquee-text {
+    display: inline-block;
+    color: #facc15;
+    font-weight: bold;
+    font-size: 1.1rem;
+    animation: marquee 18s linear infinite;
+}
+@keyframes marquee {
+    0% { transform: translateX(100%); }
+    100% { transform: translateX(-100%); }
+}
+.toolbar-controls {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.toolbar-btn {
+    padding: 8px 12px;
+    font-size: 14px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    color: white;
+}
+.user-said-box {
+    background: #0f172a;
+    border: 1px solid #38bdf8;
+    color: #38bdf8;
+    padding: 6px 12px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: bold;
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* MAIN CONTAINER */
+.container {
+    max-width: 950px;
+    margin: 20px auto;
+    padding: 25px;
+    background: #1e293b;
+    border-radius: 16px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+}
+
+h2 {
+    color: #38bdf8;
+    border-bottom: 2px solid #334155;
+    padding-bottom: 8px;
+    margin-top: 25px;
+}
+
+/* FORM FIELDS */
+.form-group {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+    text-align: left;
+}
+.form-field {
+    display: flex;
+    flex-direction: column;
+}
+.form-field label {
+    font-size: 14px;
+    color: #94a3b8;
+    margin-bottom: 5px;
+}
+input[type="text"], input[type="number"], select {
+    padding: 12px;
+    font-size: 16px;
+    border-radius: 8px;
+    border: 1px solid #475569;
+    background: #0f172a;
+    color: white;
+    outline: none;
+}
+
+/* BLINKING ANIMATION */
+.btn-blink {
+    background: #ec4899;
+    animation: blinker 1s linear infinite;
+    font-weight: bold;
+}
+.icon-blink {
+    animation: blinker 0.6s linear infinite;
+    background: #facc15 !important;
+    color: #0f172a !important;
+}
+@keyframes blinker {
+    50% { opacity: 0.3; }
+}
+
+/* TIMER & SCORE BAR */
+.game-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #0f172a;
+    padding: 15px 20px;
+    border-radius: 12px;
+    border: 1px solid #334155;
+    margin: 20px 0;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+.stats-display {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+.timer-display {
+    font-size: 1.6rem;
+    font-weight: bold;
+    color: #facc15;
+    font-family: monospace;
+}
+.score-display {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #22c55e;
+    display: none;
+}
+.btn-group {
+    display: flex;
+    gap: 10px;
+}
+
+button {
+    font-size: 16px;
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    color: white;
+    transition: opacity 0.2s;
+}
+button:disabled { opacity: 0.4; cursor: not-allowed; animation: none; }
+.btn-green { background: #22c55e; }
+.btn-blue { background: #3b82f6; }
+.btn-orange { background: #f59e0b; }
+.btn-red { background: #ef4444; }
+
+.source-pool {
+    display: flex;
+    flex-wrap: nowrap;
+    gap: 12px;
+    justify-content: center;
+    align-items: center;
+    min-height: 75px;
+    padding: 12px;
+    background: #0f172a;
+    border-radius: 10px;
+    border: 1px solid #334155;
+    margin-bottom: 20px;
+    overflow-x: auto;
+}
+.icon-only-card {
+    background: #3b82f6;
+    color: white;
+    padding: 12px 18px;
+    border-radius: 10px;
+    cursor: grab;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    user-select: none;
+    flex-shrink: 0;
+}
+.icon-only-card:active { cursor: grabbing; transform: scale(0.95); }
+
+.drop-zones-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+}
+.drop-slot {
+    background: #0f172a;
+    border: 2px dashed #475569;
+    border-radius: 10px;
+    min-height: 75px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    position: relative;
+}
+.drop-slot.locked {
+    opacity: 0.4;
+    pointer-events: none;
+    border-style: solid;
+    border-color: #334155;
+}
+.drop-slot.drag-over {
+    border-color: #38bdf8;
+    background: #1e293b;
+}
+.slot-number {
+    position: absolute;
+    top: 4px;
+    left: 8px;
+    font-size: 11px;
+    color: #64748b;
+    font-weight: bold;
+}
+
+.stt-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 12px;
+}
+.stt-card {
+    background: #0f172a;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #334155;
+    text-align: center;
+    position: relative;
+}
+.stt-card.active-box {
+    border: 2px solid #facc15;
+    background: #1e293b;
+}
+.stt-serial { font-weight: bold; color: #38bdf8; font-size: 1.2rem; }
+.stt-user-speech { font-size: 0.85rem; color: #facc15; margin-top: 4px; font-weight: 500; min-height: 20px; }
+.stt-status { font-size: 0.85rem; color: #94a3b8; margin-top: 4px; }
+.box-timer { font-size: 0.8rem; color: #ef4444; font-weight: bold; margin-top: 2px; }
+</style>
+</head>
+<body>
+
+<div class="top-toolbar">
+    <div class="marquee-container">
+        <span class="marquee-text">Panchayat Union Primary School, Anjalam Melur, Trichy District, TamilNadu, India Welcomes You!</span>
+    </div>
+    <div class="toolbar-controls">
+        <button class="toolbar-btn btn-green" id="ttsToggleBtn" onclick="testToolbarTTS()">🔊 Check TTS!</button>
+        <button class="toolbar-btn btn-blue" id="micToggleBtn" onclick="testToolbarMic()">🎙️ Check Mic!</button>
+        <div class="user-said-box" id="userSaidDisplay">You said: ...</div>
+    </div>
+</div>
+
+<div class="container">
+    <h2>📋 Student Registration (Game E02)</h2>
+    <div class="form-group">
+        <div class="form-field">
+            <label for="studentId">Student ID:</label>
+            <!-- Made editable as requested -->
+            <input type="text" id="studentId" placeholder="Enter Student ID" style="background:#0f172a; font-weight:bold; color:#38bdf8;">
+        </div>
+        <div class="form-field">
+            <label for="userName">Student Name:</label>
+            <input type="text" id="userName" placeholder="Enter full name">
+        </div>
+        <div class="form-field">
+            <label for="userEMIS">EMIS Number:</label>
+            <input type="number" id="userEMIS" placeholder="Enter EMIS ID">
+        </div>
+        <div class="form-field">
+            <label for="userWhatsapp">WhatsApp Number:</label>
+            <input type="text" id="userWhatsapp" placeholder="Enter WhatsApp Number">
+        </div>
+    </div>
+
+    <div class="game-bar">
+        <div class="stats-display">
+            <div class="timer-display" id="timer">00:00</div>
+            <div class="score-display" id="scoreDisplay">Score: 0/20 (0%)</div>
+        </div>
+        <div class="btn-group">
+            <button class="btn-blink" id="listenBtn" onclick="listen3RoundsSequence()">🎧 Listen (3 Rounds)</button>
+            <button class="btn-green" id="startBtn" onclick="startGame()" disabled>▶️ Start Game</button>
+            <button class="btn-blue" id="submitBtn" onclick="submitData()" disabled>📤 Submit Results</button>
+            <button class="btn-orange" id="resetBtn" onclick="resetSameUser()" disabled>🔄 Reset</button>
+        </div>
+    </div>
+
+    <h2>Level 1: Listen &amp; Sort Days of the Week</h2>
+    <p style="color: #94a3b8; font-size: 0.95rem;">Drop icons into slots sequentially (Slot 1 must be filled before Slot 2 unlocks).</p>
+    
+    <div class="source-pool" id="sourcePool"></div>
+    <div class="drop-zones-grid" id="dropZonesGrid"></div>
+
+    <h2>Level 2: Speak All 10 Words</h2>
+    <p style="color: #94a3b8; font-size: 0.95rem;">Mics unlock sequentially. Previous mics lock automatically.</p>
+    <div class="stt-grid" id="sttGrid"></div>
+</div>
+
+<script>
+"use strict";
+
+const targetWords = ["Days", "Seven", "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Week"];
+
+let timerInterval = null;
+let secondsElapsed = 0;
+let gameActive = false;
+let ttsId = 0;
+let isToolbarSpeaking = false;
+let activeUtterance = null;
+
+let level1Score = 0;
+let level2Score = 0;
+let verifiedL2Words = new Set();
+let activeL2Index = 0;
+
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+let recognition = null;
+let draggedCard = null;
+let boxTimerInterval = null;
+
+window.addEventListener("DOMContentLoaded", () => {
+    const params = new URLSearchParams(window.location.search);
+    if(params.get("studentId")) document.getElementById("studentId").value = params.get("studentId");
+    if(params.get("name")) document.getElementById("userName").value = params.get("name");
+    if(params.get("emis")) document.getElementById("userEMIS").value = params.get("emis");
+    if(params.get("whatsapp")) document.getElementById("userWhatsapp").value = params.get("whatsapp");
+});
+
+function testToolbarTTS() {
+    const ttsBtn = document.getElementById("ttsToggleBtn");
+    if (isToolbarSpeaking) {
+        stopSmartTTS();
+        isToolbarSpeaking = false;
+        ttsBtn.textContent = "🔊 Check TTS!";
+        ttsBtn.className = "toolbar-btn btn-green";
+        return;
+    }
+    isToolbarSpeaking = true;
+    ttsBtn.textContent = "🔇 Stop TTS!";
+    ttsBtn.className = "toolbar-btn btn-red";
+    speakText("Panchayat Union Primary School, Anjalam Melur, welcomes you!", () => {
+        isToolbarSpeaking = false;
+        ttsBtn.textContent = "🔊 Check TTS!";
+        ttsBtn.className = "toolbar-btn btn-green";
+    });
+}
+
+function testToolbarMic() {
+    const micBtn = document.getElementById("micToggleBtn");
+    if (!SpeechRecognition) {
+        alert("Speech Recognition not supported on this browser.");
+        return;
+    }
+    try {
+        if (recognition) recognition.abort();
+        recognition = new SpeechRecognition();
+        recognition.lang = "en-IN";
+        recognition.interimResults = false;
+
+        micBtn.textContent = "🎙️ Listening...";
+        micBtn.className = "toolbar-btn btn-red";
+        document.getElementById("userSaidDisplay").textContent = "You said: Say something...";
+
+        recognition.onresult = (event) => {
+            const spoken = event.results[0][0].transcript.trim();
+            document.getElementById("userSaidDisplay").textContent = `You said: "${spoken}"`;
+            resetMicButtonState();
+        };
+        recognition.onerror = () => { resetMicButtonState(); };
+        recognition.onend = () => { resetMicButtonState(); };
+        recognition.start();
+    } catch(err) {
+        resetMicButtonState();
+    }
+}
+
+function resetMicButtonState() {
+    const micBtn = document.getElementById("micToggleBtn");
+    micBtn.textContent = "🎙️ Check Mic!";
+    micBtn.className = "toolbar-btn btn-blue";
+}
+
+async function listen3RoundsSequence() {
+    const name = document.getElementById("userName").value.trim();
+    if (!name) {
+        alert("Please enter Student Name before listening!");
+        return;
+    }
+    const listenBtn = document.getElementById("listenBtn");
+    listenBtn.disabled = true;
+    listenBtn.classList.remove("btn-blink");
+
+    const cards = document.querySelectorAll(".icon-only-card");
+    for (let round = 1; round <= 3; round++) {
+        for (let i = 0; i < targetWords.length; i++) {
+            const word = targetWords[i];
+            const card = cards[i];
+            if (card) card.classList.add("icon-blink");
+            speakText(word);
+            await new Promise(resolve => setTimeout(resolve, 3000));
+            if (card) card.classList.remove("icon-blink");
+        }
+    }
+    document.getElementById("startBtn").disabled = false;
+}
+
+function initGame() {
+    const sourcePool = document.getElementById("sourcePool");
+    const dropZonesGrid = document.getElementById("dropZonesGrid");
+    sourcePool.innerHTML = "";
+    dropZonesGrid.innerHTML = "";
+    verifiedL2Words.clear();
+    activeL2Index = 0;
+    if (boxTimerInterval) clearInterval(boxTimerInterval);
+
+    for (let i = 1; i <= 10; i++) {
+        const slot = document.createElement("div");
+        slot.className = i === 1 ? "drop-slot" : "drop-slot locked";
+        slot.dataset.slotIndex = i;
+        slot.innerHTML = `<span class="slot-number">Slot ${i}</span>`;
+
+        slot.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            if (!slot.classList.contains("locked")) slot.classList.add("drag-over");
+        });
+        slot.addEventListener("dragleave", () => { slot.classList.remove("drag-over"); });
+        slot.addEventListener("drop", (e) => {
+            e.preventDefault();
+            slot.classList.remove("drag-over");
+            if (draggedCard && gameActive && !slot.classList.contains("locked")) {
+                const existingCard = slot.querySelector(".icon-only-card");
+                if (existingCard) sourcePool.appendChild(existingCard);
+                slot.appendChild(draggedCard);
+                evaluateLevel1();
+                unlockNextDropSlot(i);
+            }
+        });
+        dropZonesGrid.appendChild(slot);
+    }
+
+    targetWords.forEach((word) => {
+        const card = document.createElement("div");
+        card.className = "icon-only-card";
+        card.draggable = true;
+        card.dataset.word = word;
+        card.innerHTML = `🔊`;
+        card.addEventListener("click", () => speakText(word));
+        card.addEventListener("dragstart", () => { draggedCard = card; });
+        card.addEventListener("dragend", () => { draggedCard = null; });
+        sourcePool.appendChild(card);
+    });
+
+    const sttGrid = document.getElementById("sttGrid");
+    sttGrid.innerHTML = "";
+    targetWords.forEach((word, index) => {
+        const serialNum = index + 1;
+        const card = document.createElement("div");
+        card.className = "stt-card";
+        card.id = `stt-card-${serialNum}`;
+        const isFirst = (index === 0);
+        card.innerHTML = `
+            <div class="stt-serial">Word #${serialNum}</div>
+            <button class="btn-green" id="speak-btn-${serialNum}" style="margin-top:6px; padding:6px 12px; font-size:12px;" onclick="testSpeechBox('${word}', ${serialNum})" ${isFirst ? '' : 'disabled'}>🎙️ Speak</button>
+            <div class="stt-user-speech" id="stt-speech-${serialNum}">You said: --</div>
+            <div class="stt-status" id="stt-status-${serialNum}">${isFirst ? 'Pending' : 'Locked'}</div>
+            <div class="box-timer" id="box-timer-${serialNum}"></div>
+        `;
+        sttGrid.appendChild(card);
+    });
+
+    document.getElementById("scoreDisplay").style.display = "none";
+    updateScoreDisplay();
+}
+
+function unlockNextDropSlot(currentSlotIndex) {
+    if (currentSlotIndex < 10) {
+        const nextSlot = document.querySelector(`.drop-slot[data-slot-index="${currentSlotIndex + 1}"]`);
+        if (nextSlot) nextSlot.classList.remove("locked");
+    }
+}
+
+function shuffleSourcePool() {
+    const sourcePool = document.getElementById("sourcePool");
+    const cards = Array.from(sourcePool.children);
+    cards.sort(() => Math.random() - 0.5);
+    cards.forEach(card => sourcePool.appendChild(card));
+}
+
+function evaluateLevel1() {
+    level1Score = 0;
+    for (let i = 1; i <= 10; i++) {
+        const slot = document.querySelector(`.drop-slot[data-slot-index="${i}"]`);
+        const card = slot ? slot.querySelector(".icon-only-card") : null;
+        if (card && card.dataset.word === targetWords[i - 1]) level1Score += 1;
+    }
+    updateScoreDisplay();
+}
+
+function updateScoreDisplay() {
+    const totalScore = level1Score + level2Score;
+    const percentage = Math.round((totalScore / 20) * 100);
+    document.getElementById("scoreDisplay").textContent = `Score: ${totalScore}/20 (${percentage}%)`;
+}
+
+function startGame() {
+    if (gameActive) return;
+    gameActive = true;
+    secondsElapsed = 0;
+    level1Score = 0;
+    level2Score = 0;
+    verifiedL2Words.clear();
+    activeL2Index = 0;
+
+    shuffleSourcePool();
+
+    document.getElementById("startBtn").disabled = true;
+    document.getElementById("submitBtn").disabled = false;
+    document.getElementById("resetBtn").disabled = true;
+
+    timerInterval = setInterval(() => {
+        secondsElapsed++;
+        const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, "0");
+        const secs = String(secondsElapsed % 60).padStart(2, "0");
+        document.getElementById("timer").textContent = `${mins}:${secs}`;
+    }, 1000);
+}
+
+function advanceToNextMic(currentSerial) {
+    const currentCard = document.getElementById(`stt-card-${currentSerial}`);
+    const currentBtn = document.getElementById(`speak-btn-${currentSerial}`);
+    const currentTimerDiv = document.getElementById(`box-timer-${currentSerial}`);
+    
+    currentCard.classList.remove("active-box");
+    if (currentBtn) currentBtn.disabled = true;
+    if (currentTimerDiv) currentTimerDiv.textContent = "";
+
+    const nextSerial = currentSerial + 1;
+    if (nextSerial <= 10) {
+        const nextBtn = document.getElementById(`speak-btn-${nextSerial}`);
+        const nextStatus = document.getElementById(`stt-status-${nextSerial}`);
+        if (nextBtn) nextBtn.disabled = false;
+        if (nextStatus) {
+            nextStatus.textContent = "Pending";
+            nextStatus.style.color = "#94a3b8";
+        }
+    }
+}
+
+function testSpeechBox(targetWord, serialNum) {
+    if (!gameActive) {
+        alert("Please press Start Game first!");
+        return;
+    }
+    if (!SpeechRecognition) return;
+
+    if (boxTimerInterval) clearInterval(boxTimerInterval);
+
+    const card = document.getElementById(`stt-card-${serialNum}`);
+    const speechDiv = document.getElementById(`stt-speech-${serialNum}`);
+    const statusDiv = document.getElementById(`stt-status-${serialNum}`);
+    const timerDiv = document.getElementById(`box-timer-${serialNum}`);
+
+    card.classList.add("active-box");
+    statusDiv.textContent = "Listening...";
+    statusDiv.style.color = "#facc15";
+
+    let timeLeft = 5;
+    timerDiv.textContent = `⏱️ ${timeLeft}s`;
+    let evaluationDone = false;
+
+    const finalizeBox = () => {
+        if (evaluationDone) return;
+        evaluationDone = true;
+        clearInterval(boxTimerInterval);
+        if (recognition) try { recognition.stop(); } catch(e){}
+        advanceToNextMic(serialNum);
+    };
+
+    try {
+        if (recognition) recognition.abort();
+        recognition = new SpeechRecognition();
+        recognition.lang = "en-IN";
+        recognition.interimResults = false;
+
+        recognition.onresult = (event) => {
+            const spoken = event.results[0][0].transcript.trim();
+            document.getElementById("userSaidDisplay").textContent = `You said: "${spoken}"`;
+            speechDiv.textContent = `You said: "${spoken}"`;
+
+            if (spoken.toLowerCase().includes(targetWord.toLowerCase())) {
+                statusDiv.textContent = "✓ Correct (+1)";
+                statusDiv.style.color = "#22c55e";
+                if (!verifiedL2Words.has(serialNum)) {
+                    verifiedL2Words.add(serialNum);
+                    level2Score += 1;
+                    updateScoreDisplay();
+                }
+            } else {
+                statusDiv.textContent = `Heard: "${spoken}"`;
+                statusDiv.style.color = "#ef4444";
+            }
+            finalizeBox();
+        };
+        recognition.onerror = () => { finalizeBox(); };
+        recognition.onend = () => { finalizeBox(); };
+        recognition.start();
+    } catch(e) {
+        finalizeBox();
+    }
+
+    boxTimerInterval = setInterval(() => {
+        timeLeft--;
+        timerDiv.textContent = `⏱️ ${timeLeft}s`;
+        if (timeLeft <= 0) { finalizeBox(); }
+    }, 1000);
+}
+
+function submitData() {
+    const studentId = document.getElementById("studentId").value.trim() || "101";
+    const name = document.getElementById("userName").value.trim();
+    const timeTaken = document.getElementById("timer").textContent;
+    const finalScore = level1Score + level2Score;
+    const percentage = Math.round((finalScore / 20) * 100);
+
+    if (!name) {
+        alert("Please enter Student Name before submitting!");
+        return;
+    }
+
+    clearInterval(timerInterval);
+    if (boxTimerInterval) clearInterval(boxTimerInterval);
+    gameActive = false;
+
+    document.getElementById("scoreDisplay").style.display = "block";
+    document.getElementById("submitBtn").disabled = true;
+    document.getElementById("resetBtn").disabled = false;
+
+    const sheetAppScriptUrl = "https://script.google.com/macros/s/AKfycbwgIQck2DLMYoDq5aEC8ZjGlnoAcqDKEShZou8lyTuWcVwZgu5PGOzQTQtbeXG2k8RU/exec"; 
+
+    const payload = {
+        action: "saveGameData",
+        gameCode: "E02",
+        studentId: studentId,
+        name: name,
+        score: `${finalScore}/20 (${percentage}%)`,
+        timeTaken: timeTaken,
+        details: `Level 1: ${level1Score}/10 | Level 2: ${level2Score}/10`
+    };
+
+    fetch(sheetAppScriptUrl, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify(payload)
+    }).then(() => {
+        alert(`Game E02 Results Saved Successfully!\nScore: ${finalScore}/20 (${percentage}%)\nTime: ${timeTaken}`);
+    }).catch(() => {
+        alert(`Game E02 Results Saved!\nScore: ${finalScore}/20 (${percentage}%)\nTime: ${timeTaken}`);
+    });
+}
+
+function resetSameUser() {
+    clearInterval(timerInterval);
+    if (boxTimerInterval) clearInterval(boxTimerInterval);
+    if (recognition) try { recognition.abort(); } catch(e){}
+    
+    secondsElapsed = 0;
+    gameActive = false;
+    level1Score = 0;
+    level2Score = 0;
+    verifiedL2Words.clear();
+    activeL2Index = 0;
+
+    document.getElementById("timer").textContent = "00:00";
+    document.getElementById("scoreDisplay").textContent = "Score: 0/20 (0%)";
+    document.getElementById("scoreDisplay").style.display = "none";
+    document.getElementById("userSaidDisplay").textContent = "You said: ...";
+
+    document.getElementById("listenBtn").disabled = false;
+    document.getElementById("listenBtn").classList.add("btn-blink");
+    document.getElementById("startBtn").disabled = true;
+    document.getElementById("submitBtn").disabled = true;
+    document.getElementById("resetBtn").disabled = true;
+
+    initGame();
+}
+
+function speakText(text, onComplete) {
+    stopSmartTTS();
+    const currentId = ++ttsId;
+    let finished = false;
+    const finish = () => {
+        if (finished || currentId !== ttsId) return;
+        finished = true;
+        if (typeof onComplete === "function") onComplete();
+    };
+    const watchdog = setTimeout(finish, 5000);
+    const safeFinish = () => { clearTimeout(watchdog); finish(); };
+
+    if (!("speechSynthesis" in window)) { safeFinish(); return; }
+
+    try {
+        const synth = window.speechSynthesis;
+        synth.cancel();
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = "en-IN";
+        utterance.rate = 0.9;
+        utterance.volume = 1.0;
+        activeUtterance = utterance;
+        utterance.onend = safeFinish;
+        utterance.onerror = safeFinish;
+        synth.speak(utterance);
+    } catch (e) { safeFinish(); }
+}
+
+function stopSmartTTS() {
+    ttsId++;
+    if ("speechSynthesis" in window) {
+        try { window.speechSynthesis.cancel(); } catch (e) {}
+    }
+    activeUtterance = null;
+}
+
+window.onload = initGame;
+</script>
+</body>
+</html>
