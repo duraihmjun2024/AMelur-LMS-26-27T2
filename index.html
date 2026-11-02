@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Panchayat Union Primary School LMS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="manifest" href="manifest.json">
+    <style>
+        .grid-border th, .grid-border td {
+            border: 1px solid #475569;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 0.85rem;
+            padding: 4px 2px;
+            white-space: nowrap;
+            user-select: none;
+        }
+        .bg-purple-grid { background-color: #f3e8ff; }
+        .bg-yellow-grid { background-color: #fef08a; }
+        .bg-boy-blue { background-color: #bae6fd; color: #0369a1; }
+        .bg-girl-pink { background-color: #fbcfe8; color: #be185d; }
+        .cell-hover:hover {
+            filter: brightness(0.92);
+            cursor: pointer;
+            transform: scale(1.03);
+            transition: transform 0.1s ease-in-out;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 font-sans min-h-screen flex flex-col justify-between select-none">
+
+    <div class="w-full max-w-7xl mx-auto p-3 flex-grow flex flex-col gap-4">
+
+        <!-- 1. TITLE BAR WITH SCROLLING TEXT -->
+        <header class="bg-slate-900 text-white flex items-center justify-between px-4 py-3 rounded-xl border border-slate-800 shadow-md">
+            <div class="flex items-center gap-3 w-full overflow-hidden">
+                <i class="fa-solid fa-graduation-cap text-indigo-400 text-xl"></i>
+                <div class="w-full overflow-hidden flex items-center bg-slate-800 px-3 py-1.5 rounded-lg border border-slate-700">
+                    <i class="fa-solid fa-bullhorn text-yellow-400 mr-3 animate-pulse text-sm"></i>
+                    <marquee id="welcomeMarquee" class="text-sm font-bold tracking-wide text-yellow-400">
+                        Panchayat Union Primary School, Anjalam Melur, Trichy District, TamilNadu, India Welcomes You! Click any Game Code or Student Code to inspect records.
+                    </marquee>
+                </div>
+            </div>
+        </header>
+
+        <!-- 2. MENU BAR -->
+        <nav class="flex items-center overflow-x-auto no-scrollbar bg-white p-2 rounded-xl border border-slate-200 shadow-sm gap-2">
+            <button onclick="navAction('NoticeBoard')" class="px-4 py-2 bg-slate-100 hover:bg-indigo-50 border border-slate-300 rounded-lg text-sm font-bold text-slate-700">NoticeBoard</button>
+            <button onclick="navAction('Home')" class="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm font-bold shadow-sm">Home</button>
+            <button onclick="navAction('Goal')" class="px-4 py-2 bg-slate-100 hover:bg-indigo-50 border border-slate-300 rounded-lg text-sm font-bold text-slate-700">Goal</button>
+            <button onclick="navAction('Gallery')" class="px-4 py-2 bg-slate-100 hover:bg-indigo-50 border border-slate-300 rounded-lg text-sm font-bold text-slate-700">Gallery</button>
+            <button onclick="navAction('Staff')" class="px-4 py-2 bg-slate-100 hover:bg-indigo-50 border border-slate-300 rounded-lg text-sm font-bold text-slate-700">Staff</button>
+            <button onclick="navAction('Games List')" class="px-4 py-2 bg-slate-100 hover:bg-indigo-50 border border-slate-300 rounded-lg text-sm font-bold text-slate-700">Games List</button>
+            <button onclick="navAction('Downloads')" class="px-4 py-2 bg-slate-100 hover:bg-indigo-50 border border-slate-300 rounded-lg text-sm font-bold text-slate-700">Downloads</button>
+            <button onclick="navAction('Events')" class="px-4 py-2 bg-slate-100 hover:bg-indigo-50 border border-slate-300 rounded-lg text-sm font-bold text-slate-700">Events</button>
+            <button onclick="navAction('More')" class="px-4 py-2 bg-slate-100 hover:bg-indigo-50 border border-slate-300 rounded-lg text-sm font-bold text-slate-700">More</button>
+        </nav>
+
+        <main class="space-y-4">
+
+            <!-- 3. GAME TABLE -->
+            <section class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm overflow-hidden">
+                <div class="flex justify-between items-center mb-3">
+                    <h2 class="text-sm font-extrabold text-slate-800 uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-gamepad text-indigo-600 text-lg"></i> Game Table
+                    </h2>
+                    <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full border border-indigo-200">Click any Game Code to launch or inspect</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full grid-border border-collapse bg-white">
+                        <thead>
+                            <tr class="bg-slate-200 font-bold text-slate-800 text-xs">
+                                <th rowspan="2" class="w-32 bg-amber-100 text-slate-900 text-xs">Game Schedule</th>
+                                <th colspan="4" class="bg-slate-300">Month 1</th>
+                                <th colspan="4" class="bg-slate-300">Month 2</th>
+                                <th colspan="4" class="bg-slate-300">Month 3</th>
+                                <th colspan="4" class="bg-slate-300">Month 4</th>
+                            </tr>
+                            <tr class="bg-slate-100 font-semibold text-slate-700 text-xs">
+                                <th class="w-8">Wk01</th><th class="w-8">Wk02</th><th class="w-8">Wk03</th><th class="w-8">Wk04</th>
+                                <th class="w-8">Wk01</th><th class="w-8">Wk02</th><th class="w-8">Wk03</th><th class="w-8">Wk04</th>
+                                <th class="w-8">Wk01</th><th class="w-8">Wk02</th><th class="w-8">Wk03</th><th class="w-8">Wk04</th>
+                                <th class="w-8">Wk01</th><th class="w-8">Wk02</th><th class="w-8">Wk03</th><th class="w-8">Wk04</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="bg-purple-grid">
+                                <td rowspan="3" class="font-bold text-slate-900 text-xs bg-purple-200">Mon, Wed, Fri</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('T01')">T01</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('T02')">T02</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('T03')">T03</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev1</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('T04')">T04</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('T05')">T05</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('T06')">T06</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev2</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('T07')">T07</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('T08')">T08</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('T09')">T09</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev3</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev1</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev2</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev3</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev4</td>
+                            </tr>
+                            <tr class="bg-purple-grid">
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('E01')">E01</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('E03')">E03</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('E05')">E05</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev1</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('E07')">E07</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('E09')">E09</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('E11')">E11</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev2</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('E13')">E13</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('E15')">E15</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('E17')">E17</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev3</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev1</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev2</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev3</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev4</td>
+                            </tr>
+                            <tr class="bg-purple-grid">
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('M01')">M01</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('M02')">M02</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('M03')">M03</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev1</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('M04')">M04</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('M05')">M05</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('M06')">M06</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev2</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('M07')">M07</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('M08')">M08</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('M09')">M09</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev3</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev1</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev2</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev3</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev4</td>
+                            </tr>
+                            <tr class="bg-yellow-grid">
+                                <td rowspan="3" class="font-bold text-slate-900 text-xs bg-amber-200">Tue, Thu, Sat</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('S01')">S01</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('S02')">S02</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('S03')">S03</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev1</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('S04')">S04</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('S05')">S05</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('S06')">S06</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev2</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('S07')">S07</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('S08')">S08</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('S09')">S09</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev3</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev1</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev2</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev3</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev4</td>
+                            </tr>
+                            <tr class="bg-yellow-grid">
+                                <td class="cell-hover font-extrabold bg-emerald-300 text-emerald-950" onclick="handleGameClick('E02')">E02</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('E04')">E04</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('E06')">E06</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev1</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('E08')">E08</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('E10')">E10</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('E12')">E12</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev2</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('E14')">E14</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('E16')">E16</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('E18')">E18</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev3</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev1</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev2</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev3</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev4</td>
+                            </tr>
+                            <tr class="bg-yellow-grid">
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('G01')">G01</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('G02')">G02</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('G03')">G03</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev1</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('G04')">G04</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('G05')">G05</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('G06')">G06</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev2</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('G07')">G07</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('G08')">G08</td>
+                                <td class="cell-hover font-bold" onclick="inspectGameTableCode('G09')">G09</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev3</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev1</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev2</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev3</td>
+                                <td class="cell-hover text-slate-500 font-semibold">Rev4</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 4. GAME DASHBOARD -->
+            <section class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm overflow-hidden space-y-3">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                    <span class="text-xs font-bold text-slate-800">Enter Game Code to inspect status:</span>
+                    <input type="text" id="gameDashboardInput" value="E02" onchange="loadGameDashboard(this.value)" class="border border-indigo-300 rounded px-3 py-1 text-sm font-bold text-indigo-700 bg-white w-24 text-center uppercase">
+                </div>
+                
+                <div class="overflow-x-auto">
+                    <table class="w-full grid-border border-collapse bg-white">
+                        <thead>
+                            <tr class="bg-slate-200 font-bold text-slate-800 text-xs">
+                                <th rowspan="2" class="w-32">Game Dashboard</th>
+                                <th colspan="2" class="bg-indigo-100">Students</th>
+                                <th colspan="2" class="bg-blue-100">Std 5</th>
+                                <th colspan="2" class="bg-blue-100">Std 4</th>
+                                <th colspan="2" class="bg-blue-100">Std 3</th>
+                                <th colspan="2" class="bg-blue-100">Std 2</th>
+                                <th colspan="2" class="bg-blue-100">Std 1</th>
+                                <th rowspan="2" class="w-16 bg-slate-300">Members</th>
+                                <th rowspan="2" class="w-16 bg-slate-300">Guests</th>
+                            </tr>
+                            <tr class="bg-slate-100 font-semibold text-slate-700 text-xs">
+                                <th>Boys</th><th>Girls</th>
+                                <th>Boys</th><th>Girls</th>
+                                <th>Boys</th><th>Girls</th>
+                                <th>Boys</th><th>Girls</th>
+                                <th>Boys</th><th>Girls</th>
+                                <th>Boys</th><th>Girls</th>
+                            </tr>
+                        </thead>
+                        <tbody id="gameDashboardBody">
+                            <tr><td class="font-bold text-left px-2 bg-slate-50">Entries</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td class="bg-slate-100">--</td></tr>
+                            <tr><td class="font-bold text-left px-2 bg-slate-50">Users</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td class="bg-slate-100">--</td></tr>
+                            <tr><td class="font-bold text-left px-2 bg-slate-50">Average %</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td class="bg-slate-100">--</td></tr>
+                            <tr><td class="font-bold text-left px-2 bg-slate-50">Top %</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td class="bg-slate-100">--</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 5. STUDENT ENTRY POINT (15 Boys & 15 Girls per Std = 30 per row) -->
+            <section class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm overflow-hidden space-y-3">
+                <div class="flex justify-between items-center bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                    <h2 class="text-xs font-bold text-slate-800 uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-users text-emerald-600 text-base"></i> Student Entry Point (15 Boys & 15 Girls per Std)
+                    </h2>
+                    <span class="text-xs font-bold text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">Click your Student Code to play!</span>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full grid-border border-collapse bg-white" id="studentEntryGridTable">
+                        <!-- Populated with 15 Boys and 15 Girls per Std -->
+                    </table>
+                </div>
+            </section>
+
+            <!-- 6. STUDENT DASHBOARD -->
+            <section class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm overflow-hidden space-y-3">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-slate-50 p-2.5 rounded-lg border border-slate-200">
+                    <span class="text-xs font-bold text-slate-800">Enter Student Code to inspect performance:</span>
+                    <input type="text" id="studentDashboardInput" value="1B01" onchange="loadStudentDashboard(this.value)" class="border border-emerald-300 rounded px-3 py-1 text-sm font-bold text-emerald-700 bg-white w-24 text-center uppercase">
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full grid-border border-collapse bg-white">
+                        <thead>
+                            <tr class="bg-slate-200 font-bold text-slate-800 text-xs">
+                                <th class="w-32">Game Code</th>
+                                <th>T01</th><th>T02</th><th>T03</th><th>T04</th><th>T05</th><th>T06</th><th>T07</th><th>T08</th><th>T09</th><th class="w-16 bg-slate-300">All</th>
+                            </tr>
+                        </thead>
+                        <tbody id="studentDashboardBody">
+                            <tr>
+                                <td class="font-bold bg-slate-50 text-left px-2">Trials Finished</td>
+                                <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td class="font-bold bg-indigo-50">--</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold bg-slate-50 text-left px-2">Total Score</td>
+                                <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td class="font-bold bg-indigo-50">--</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold bg-slate-50 text-left px-2">Total Time</td>
+                                <td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td>--</td><td class="font-bold bg-indigo-50">--</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 7. OVERALL LEADERBOARD -->
+            <section class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm overflow-hidden space-y-3">
+                <div class="flex justify-between items-center bg-indigo-900 text-white p-2.5 rounded-lg">
+                    <h2 class="text-xs font-bold uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-trophy text-yellow-400 text-sm"></i> Overall Leaderboard (Top Achievers)
+                    </h2>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse text-sm bg-white text-center">
+                        <thead>
+                            <tr class="bg-slate-100 font-bold text-slate-800">
+                                <th class="border p-2">Rank</th>
+                                <th class="border p-2">Student ID</th>
+                                <th class="border p-2 text-left">Student Name</th>
+                                <th class="border p-2">Standard</th>
+                                <th class="border p-2">Total Score</th>
+                                <th class="border p-2">Best Time</th>
+                            </tr>
+                        </thead>
+                        <tbody id="overallLeaderboardBody">
+                            <tr><td colspan="6" class="p-3 text-slate-400 italic">Loading live leaderboards...</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 8. CLASSWISE LEADERBOARD -->
+            <section class="bg-white p-4 rounded-xl border border-slate-200 shadow-sm overflow-hidden space-y-3">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2 bg-slate-800 text-white p-2.5 rounded-lg">
+                    <h2 class="text-xs font-bold uppercase flex items-center gap-2">
+                        <i class="fa-solid fa-medal text-yellow-400 text-sm"></i> Classwise Leaderboard
+                    </h2>
+                    <select id="classSelectLeaderboard" onchange="loadClassLeaderboard(this.value)" class="bg-slate-700 text-yellow-300 font-bold border border-slate-600 rounded px-3 py-1 text-xs">
+                        <option value="1">Standard 1</option>
+                        <option value="2">Standard 2</option>
+                        <option value="3">Standard 3</option>
+                        <option value="4">Standard 4</option>
+                        <option value="5">Standard 5</option>
+                    </select>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full border-collapse text-sm bg-white text-center" id="classLeaderboardTable">
+                        <thead>
+                            <tr class="bg-slate-100 font-bold text-slate-800">
+                                <th class="border p-2">Class Rank</th>
+                                <th class="border p-2">Student ID</th>
+                                <th class="border p-2 text-left">Student Name</th>
+                                <th class="border p-2">Games Completed</th>
+                                <th class="border p-2">Total Score</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td colspan="5" class="p-3 text-slate-400 italic">Select a class to view rankings.</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- FOOTER -->
+        <footer class="bg-transparent text-center space-y-2 py-3">
+            <p class="text-xs font-bold text-slate-700">For more details, kindly send WhatsApp message to: +91 7010459876</p>
+            <a href="https://wa.me/917010459876" target="_blank" class="inline-flex items-center gap-2 px-4 py-1.5 bg-emerald-500 text-white font-bold rounded-full text-xs shadow hover:bg-emerald-600">
+                <i class="fa-brands fa-whatsapp text-sm"></i> +91 7010459876
+            </a>
+        </footer>
+    </div>
+
+    <!-- STUDENT REGISTRATION MODAL -->
+    <div id="studentModal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-xl max-w-md w-full p-5 shadow-2xl border border-slate-100 space-y-3">
+            <h3 id="modalTitle" class="text-sm font-bold text-indigo-700 border-b pb-2">📋 Student Registration</h3>
+            <form id="userRegForm" class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Student ID</label>
+                    <input type="text" id="regStudentId" readonly class="w-full border rounded-lg p-2 bg-slate-100 font-bold text-indigo-700">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Student Name *</label>
+                    <input type="text" id="regName" required placeholder="Enter Full Name" class="w-full border rounded-lg p-2">
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">EMIS Number *</label>
+                    <input type="text" id="regEmis" required placeholder="Enter EMIS ID" class="w-full border rounded-lg p-2">
+                </div>
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">Cell No</label>
+                        <input type="tel" id="regCell" placeholder="Cell Number" class="w-full border rounded-lg p-2">
+                    </div>
+                    <div>
+                        <label class="block font-bold text-slate-700 mb-1">WhatsApp No *</label>
+                        <input type="tel" id="regWhatsapp" required placeholder="WhatsApp Number" class="w-full border rounded-lg p-2">
+                    </div>
+                </div>
+                <div>
+                    <label class="block font-bold text-slate-700 mb-1">Select Game Code *</label>
+                    <select id="regGameCode" required class="w-full border rounded-lg p-2 font-bold text-indigo-700 bg-indigo-50">
+                        <option value="E02" selected>E02 (Days of the Week)</option>
+                        <option value="T01">T01</option><option value="E01">E01</option><option value="M01">M01</option>
+                    </select>
+                </div>
+                <div class="flex justify-end space-x-2 pt-2">
+                    <button type="button" onclick="closeModal()" class="px-4 py-2 border rounded-lg bg-slate-200 font-bold">Cancel</button>
+                    <button type="submit" id="submitBtn" class="px-4 py-2 bg-indigo-600 text-white rounded-lg font-bold hover:bg-indigo-700">Submit & Launch Game</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzKcaQMwniad0ZWTSMp0Rcnr6bUkYpnP5yHZgRpT-eHnX_wYQtvsNNUKNIlOwDW_EJx/exec";
+        let gameRecordsData = [];
+        let userRecordsData = [];
+
+        function fetchLiveSheetData() {
+            fetch(`${GOOGLE_SCRIPT_URL}?action=getAllData`)
+                .then(res => res.json())
+                .then(data => {
+                    userRecordsData = data.userData || [];
+                    gameRecordsData = data.gameData || [];
+                    renderOverallLeaderboard();
+                    loadClassLeaderboard(1);
+                })
+                .catch(() => {
+                    document.getElementById('overallLeaderboardBody').innerHTML = `
+                        <tr><td colspan="6" class="p-3 text-slate-400 italic">No game submission records found yet. Submit games to update ranking.</td></tr>`;
+                });
+        }
+
+        function renderOverallLeaderboard() {
+            const body = document.getElementById('overallLeaderboardBody');
+            if (!gameRecordsData.length) {
+                body.innerHTML = `<tr><td colspan="6" class="p-3 text-slate-400 italic">No score records logged yet.</td></tr>`;
+                return;
+            }
+            let html = '';
+            gameRecordsData.forEach((row, idx) => {
+                const std = row.studentId ? `Std ${row.studentId.charAt(0)}` : 'Std 1';
+                html += `<tr>
+                    <td class="border p-2 font-bold ${idx===0?'text-amber-600':''}">${idx + 1}</td>
+                    <td class="border p-2 font-bold text-indigo-700">${row.studentId || '--'}</td>
+                    <td class="border p-2 text-left font-semibold">${row.name || 'Student'}</td>
+                    <td class="border p-2">${std}</td>
+                    <td class="border p-2 font-bold text-emerald-600">${row.score || '--'}</td>
+                    <td class="border p-2">${row.timeTaken || '--'}</td>
+                </tr>`;
+            });
+            body.innerHTML = html;
+        }
+
+        function loadClassLeaderboard(standard) {
+            const body = document.querySelector('#classLeaderboardTable tbody');
+            const filtered = gameRecordsData.filter(r => r.studentId && r.studentId.startsWith(String(standard)));
+            if (!filtered.length) {
+                body.innerHTML = `<tr><td colspan="5" class="p-3 text-slate-400 italic">No rankings logged for Standard ${standard} yet.</td></tr>`;
+                return;
+            }
+            let html = '';
+            filtered.forEach((row, idx) => {
+                html += `<tr>
+                    <td class="border p-2 font-bold text-emerald-700">${idx + 1}</td>
+                    <td class="border p-2 font-bold">${row.studentId}</td>
+                    <td class="border p-2 text-left">${row.name}</td>
+                    <td class="border p-2">Completed</td>
+                    <td class="border p-2 font-bold text-indigo-700">${row.score}</td>
+                </tr>`;
+            });
+            body.innerHTML = html;
+        }
+
+        function handleGameClick(gameCode) {
+            if (gameCode === 'E02') {
+                window.location.href = "Days.html?gameCode=E02";
+            } else {
+                alert(`Game ${gameCode} file will be attached in coming chats!`);
+            }
+        }
+
+        function inspectGameTableCode(gameCode) {
+            document.getElementById('gameDashboardInput').value = gameCode;
+        }
+
+        function openStudentRegistration(studentId) {
+            document.getElementById('regStudentId').value = studentId;
+            document.getElementById('modalTitle').innerText = "Registration - Student " + studentId;
+            document.getElementById('studentModal').classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('studentModal').classList.add('hidden');
+        }
+
+        // Render 15 Boys (B01-B15) and 15 Girls (G01-G15) for Stds 1-5
+        function renderStudentEntryGrid() {
+            const container = document.getElementById('studentEntryGridTable');
+            let html = `<thead><tr class="bg-slate-200 font-bold text-slate-800 text-xs">
+                <th class="w-20 bg-slate-300">Std / ID</th>`;
+            for(let i=1; i<=15; i++) html += `<th class="bg-blue-200 text-blue-950">B${i < 10 ? '0'+i : i}</th>`;
+            for(let i=1; i<=15; i++) html += `<th class="bg-pink-200 text-pink-950">G${i < 10 ? '0'+i : i}</th>`;
+            html += `</tr></thead><tbody>`;
+
+            const standards = [1, 2, 3, 4, 5];
+            standards.forEach(std => {
+                html += `<tr><td class="font-bold bg-slate-200 text-xs">Std ${std}</td>`;
+                for(let c=1; c<=15; c++) {
+                    const code = `${std}B${c < 10 ? '0'+c : c}`;
+                    html += `<td class="cell-hover bg-boy-blue font-bold text-xs" onclick="openStudentRegistration('${code}')" title="Click to register & play">${code}</td>`;
+                }
+                for(let c=1; c<=15; c++) {
+                    const code = `${std}G${c < 10 ? '0'+c : c}`;
+                    html += `<td class="cell-hover bg-girl-pink font-bold text-xs" onclick="openStudentRegistration('${code}')" title="Click to register & play">${code}</td>`;
+                }
+                html += `</tr>`;
+            });
+            html += `</tbody>`;
+            container.innerHTML = html;
+        }
+
+        document.getElementById('userRegForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true; btn.innerText = "Saving...";
+
+            const payload = {
+                action: "saveUserData",
+                studentId: document.getElementById('regStudentId').value,
+                name: document.getElementById('regName').value,
+                emis: document.getElementById('regEmis').value,
+                cell: document.getElementById('regCell').value,
+                whatsapp: document.getElementById('regWhatsapp').value,
+                gameCode: document.getElementById('regGameCode').value
+            };
+
+            fetch(GOOGLE_SCRIPT_URL, {
+                method: "POST", mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                closeModal();
+                if (payload.gameCode === 'E02') {
+                    window.location.href = `Days.html?gameCode=E02&studentId=${payload.studentId}&name=${encodeURIComponent(payload.name)}&whatsapp=${payload.whatsapp}`;
+                } else {
+                    alert("User registration data saved!");
+                    fetchLiveSheetData();
+                }
+            });
+        });
+
+        window.onload = function() {
+            renderStudentEntryGrid();
+            fetchLiveSheetData();
+        };
+    </script>
+</body>
+</html>
